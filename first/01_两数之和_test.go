@@ -6,7 +6,7 @@ import (
 
 //一遍哈希表
 func twoSum(nums []int, target int) []int {
-	table := map[int]int{}
+	table := make(map[int]int, len(nums))
 	for i, num := range nums {
 		complement := target - num
 		if value, ok := table[complement]; ok && value != i {
