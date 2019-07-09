@@ -2,34 +2,35 @@ package first
 
 import (
 	"fmt"
-	"math"
 	"testing"
 )
 
-func expandAroundCenter(s string, left int, right int) int {
+func expandAroundCenter(s string, left int, right int) string {
 	L, R := left, right
 	for L >= 0 && R < len(s) && s[L] == s[R] {
 		L--
 		R++
 	}
-	return R - L - 1
+	return s[L+1 : R] //求出后L已被减一，R已被加一，所以要L+1,右边不取，R不用减一
 }
 
 func longestPalindrome(s string) string {
 	if len(s) < 1 {
 		return ""
 	}
-	start, end := 0, 0
+	//start, end := 0, 0
+	result := ""
 	for i := 0; i < len(s); i++ {
-		len1 := expandAroundCenter(s, i, i)
-		len2 := expandAroundCenter(s, i, i+1)
-		len := int(math.Max(float64(len1), float64(len2)))
-		if len > end-start {
-			start = i - (len-1)/2
-			end = i + len/2
+		s1 := expandAroundCenter(s, i, i)
+		s2 := expandAroundCenter(s, i, i+1)
+		if len(s1) > len(result) {
+			result = s1
+		}
+		if len(s2) > len(result) {
+			result = s2
 		}
 	}
-	return string(s[start : end+1])
+	return result
 }
 func TestLongestPalindrome(t *testing.T) {
 	s1 := "abacdfgdcaba"
